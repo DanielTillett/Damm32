@@ -49,6 +49,7 @@
 
 #define BASE 32
 
+<<<<<<< HEAD
 char base32[BASE+1] = "23456789abcdefghjkmnpqrstuvwxyzz";
 
 /*
@@ -59,6 +60,41 @@ int base32Index(char p) {
 	int i;
     
 	for (i = 0; i < BASE; i++) {
+=======
+    BACKGROUND
+    The Damm algorithm is a check digit algorithm that detects all single-digit errors 
+    and all adjacent transposition errors.
+ 
+    It detects all occurrences of altering one single digit and all occurrences of 
+    transposing two adjacent digits, the two most frequent transcription errors.
+ 
+    The Damm algorithm has the benefit that it makes do without the dedicatedly 
+    constructed permutations and its position specific powers being inherent in the 
+    Verhoeff scheme. Prepending leading base encoding zeros does not affect the check digit.
+    https://en.wikipedia.org/wiki/Damm_algorithm
+*/
+
+/*
+    A base32 (or less) encoding.
+ 
+    With this example encoding the base 0 is '2' and contains 31 characters that avoids 
+    using characters that could be confused with each other (i.e. 0/o or 1/i/l).
+ 
+    The encoding can be any scheme with 32 or less characters. To change the encoding
+    update encodeLen and base32 to the desired values.
+*/
+const int encodeLen = 31;
+const char base32[encodeLen] = "23456789abcdefghjkmnpqrstuvwxyz";
+
+/*
+    Returns index position of the base32 digit if the digit exists in the base32 string
+    or encodeLen if not.
+*/
+int base32Index(char p) {
+	int i;
+
+	for (i = 0; i < encodeLen; i++) {
+>>>>>>> FETCH_HEAD
 		if (p == base32[i]) {
 			break;
         }
@@ -68,11 +104,21 @@ int base32Index(char p) {
 }
 
 /*
+<<<<<<< HEAD
  Damn algorithm base32 check digit calculator
  Returns the base32 check digit defined by base32 string or '-' if base32
  number contains a character that is not defined in the base32 string.
  Input must be a null terminated c string.
  */
+=======
+    Damn algorithm base32 check digit calculator.
+ 
+    Returns the base32 check digit defined by the base32 string or '-' if the base32
+    number contains a character that is not defined in the base32 string.
+    
+    Input must be a null terminated C string.
+*/
+>>>>>>> FETCH_HEAD
 char damm32Encode(char *code) {
 	int i, interim = 0;
 	char *p;
@@ -120,8 +166,13 @@ char damm32Encode(char *code) {
     
 	for (p = code; *p != '\0'; ++p) {
 		i = base32Index(*p);
+<<<<<<< HEAD
         
 		if (i == BASE) {
+=======
+
+		if (i == encodeLen) {
+>>>>>>> FETCH_HEAD
 			return '-';
         }
         
@@ -133,19 +184,32 @@ char damm32Encode(char *code) {
 }
 
 /*
+<<<<<<< HEAD
  Returns 1 if base32 number is error free, 0 if it contains an error
  or no error check digit.
  */
+=======
+    Damm32 Check
+ 
+    Returns 1 if the base32 number is error free and 0 if it contains an error
+    or the last digit is not equal to the error check digit.
+*/
+>>>>>>> FETCH_HEAD
 int damm32Check(char *code) {
 	return (damm32Encode(code) == base32[0]) ? 1 : 0;
 }
 
 /*
+<<<<<<< HEAD
  Prints to stdout the base32 number, the base32 check digit and the error check.
  */
+=======
+    Prints to stdout the input base32 number, the base32 check digit, and the damm32 check result.
+*/
+>>>>>>> FETCH_HEAD
 int main(int argc, char **argv) {
 	if (argc == 2 && argv[1]) {
-		printf("Base32 Number: %s\nBase32 Check Digit: %c\nError Check: %d\n", argv[1], damm32Encode(argv[1]), damm32Check(argv[1]));
+		printf("Input: %s\nCheck Digit: %c\nChecked: %d\n", argv[1], damm32Encode(argv[1]), damm32Check(argv[1]));
 		return 1;
     }
     

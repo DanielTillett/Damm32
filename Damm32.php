@@ -37,6 +37,7 @@
 */
 
 /*
+<<<<<<< HEAD
     A base32 encoding that avoids using characters that could be confused with each other 
     (i.e. 0/o or 1/i/l).
     With this encoding the base32 0 is '2'. 
@@ -45,13 +46,25 @@
     in your encoding then just repeat one or more of the characters in your set.
 */
 $base32 = "23456789abcdefghjkmnpqrstuvwxyzz";
+=======
+    A base32 (or less) encoding.
+ 
+    With this example encoding the base 0 is '2' and contains 31 characters that avoids 
+    using characters that could be confused with each other (i.e. 0/o or 1/i/l).
+ 
+    The encoding can be any scheme with 32 or less characters. To change the encoding
+    update encodeLen and base32 to the desired values.
+*/
+$encodeLen = 31;
+$base32 = "23456789abcdefghjkmnpqrstuvwxyz";
+>>>>>>> FETCH_HEAD
 
 /*
     Returns index position of base32 digit if the digit exists in the base32 character set
     or 32 if not.
 */
 function base32Index($p) {
-	global $base32;
+	global $base32, $encodeLen;
 	for ($i = 0; $i < 32; $i++) {
 		
 		//echo $base32[$i];
@@ -63,15 +76,17 @@ function base32Index($p) {
 	}
 
 /*
-    Damn algorithm base32 check digit calculator
+    Damn algorithm base32 check digit calculator.
+    
     Returns the base32 check digit defined by base32 string or '-' if base32 
     number contains a character that is not defined in the base32 string. 
-    Input must be a php string.
+   
+    Input must be a PHP string.
 */
 function damm32Encode($code) {
 	$interim = 0;
 	$len = strlen($code);
-	global $base32;
+	global $base32, $encodeLen;
 	
 	/*
 	    WTA quasigroup matrix of order 32
@@ -117,7 +132,7 @@ function damm32Encode($code) {
 
 	for ($i=0; $i < $len; $i++) {
 		$j = base32Index($code[$i]);
-		if ($j == 32) {
+		if ($j === $encodeLen) {
 			return '-';
 			}
 		$interim = $damm32Matrix[$interim][$j];
@@ -131,7 +146,7 @@ function damm32Encode($code) {
 */
 function damm32Check($code) {
 	global $base32;
-	return (damm32Encode($code) == $base32[0]) ? 1 : 0;
+	return (damm32Encode($code) === $base32[0]) ? 1 : 0;
 	}
 
 /*
@@ -139,7 +154,7 @@ function damm32Check($code) {
 */
 
 if ($argc == 2 && $argv[1]) {
-	printf("Base32 Number: %s\nBase32 Check Digit: %s\nError Check: %d\n", $argv[1], damm32Encode($argv[1]), damm32Check($argv[1]));
+	printf("Input: %s\nCheck Digit: %s\nChecked: %d\n", $argv[1], damm32Encode($argv[1]), damm32Check($argv[1]));
 	}
 
 else {
