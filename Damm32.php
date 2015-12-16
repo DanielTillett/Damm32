@@ -39,10 +39,12 @@
 /*
     A base32 encoding that avoids using characters that could be confused with each other 
     (i.e. 0/o or 1/i/l).
-    With this encoding the base32 0 is '2'. This encoding can be changed to any 
-    encoding scheme.
+    With this encoding the base32 0 is '2'. 
+    
+    The encoding can be changed to any encoding scheme. If using less than 32 characters 
+    in your encoding then just repeat one or more of the characters in your set.
 */
-$base32 = "23456789abcdefghjkmnpqrstuvwxyz";
+$base32 = "23456789abcdefghjkmnpqrstuvwxyzz";
 
 /*
     Returns index position of base32 digit if the digit exists in the base32 character set
