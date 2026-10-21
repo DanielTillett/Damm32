@@ -48,7 +48,7 @@ check(!Damm32::isValid('fdfsdfds4'), 'fdfsdfds4 is invalid');
 check(Damm32::isValid('FdFsDfDs3'), 'mixed case is valid');
 check(Damm32::checkDigit('9j') === '*', '9j -> *');
 check(Damm32::isValid('9j*'), '9j* is valid');
-check(Damm32::checkDigit('bisantrene') === Damm32::INVALID, 'bisantrene is invalid');
+check(Damm32::checkDigit('invalid') === Damm32::INVALID, 'invalid is invalid');
 check(!Damm32::isValid(''), 'empty string is invalid');
 
 /* Shared vectors, identical to those used by the C and JavaScript tests. */

@@ -1,0 +1,31 @@
+{
+    "name": "danieltillett/damm32",
+    "description": "Base32 implementation of the Damm check digit algorithm",
+    "type": "library",
+    "keywords": ["damm", "check digit", "checksum", "base32", "error detection"],
+    "homepage": "https://github.com/DanielTillett/Damm32",
+    "license": "BSD-2-Clause",
+    "authors": [
+        {
+            "name": "Daniel Tillett"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/DanielTillett/Damm32/issues",
+        "source": "https://github.com/DanielTillett/Damm32"
+    },
+    "require": {
+        "php": ">=7.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "Damm32\\": "php/src/"
+        }
+    },
+    "bin": [
+        "php/bin/damm32"
+    ],
+    "scripts": {
+        "test": "php php/tests/Damm32Test.php"
+    }
+}

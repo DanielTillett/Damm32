@@ -41,7 +41,7 @@ test('known values, case-insensitivity and invalid input', () => {
   assert.ok(isValid('FdFsDfDs3'));
   assert.equal(checkDigit('9j'), '*');
   assert.ok(isValid('9j*'));
-  assert.equal(checkDigit('bisantrene'), INVALID);
+  assert.equal(checkDigit('invalid'), INVALID);
   assert.equal(checkDigit('İ'), INVALID);
   assert.ok(!isValid(''));
   assert.throws(() => checkDigit(42), TypeError);
@@ -98,6 +98,6 @@ test('CLI matches the C version', () => {
   assert.equal(run(['-a'], 'fdfsdfds\n9j\n').stdout, 'fdfsdfds3\n9j*\n');
   assert.equal(run(['-c', 'fdfsdfds3', '9j*']).status, 0);
   assert.equal(run(['-c', 'fdfsdfds4']).status, 1);
-  assert.equal(run(['-a', 'bisantrene']).status, 1);
+  assert.equal(run(['-a', 'invalid']).status, 1);
   assert.equal(run(['--bogus']).status, 2);
 });

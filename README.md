@@ -102,8 +102,14 @@ Link against the `damm32lib` CMake target, or compile `src/damm32.c` into your p
 The PHP version has the same command-line interface as the C version.
 
 ```bash
-php php/bin/damm32 -a fdfsdfds
+composer require danieltillett/damm32
 ```
+
+```bash
+vendor/bin/damm32 -a fdfsdfds
+```
+
+From a clone of this repository, run the tests with:
 
 ```bash
 php php/tests/Damm32Test.php
@@ -117,22 +123,28 @@ Damm32::isValid('fdfsdfds3');    // true
 Damm32::value('f');              // 0-31, or -1 if not in the alphabet
 ```
 
-Install it with Composer (the package is in [`php/`](php), with PSR-4 autoloading), or `require` [`php/src/Damm32.php`](php/src/Damm32.php) directly.
+Composer autoloads the `Damm32\Damm32` class. Without Composer, `require` [`php/src/Damm32.php`](php/src/Damm32.php) directly.
 
 ## JavaScript
 
 The JavaScript version is a dependency-free ES module with TypeScript declarations. It works in Node.js and in the browser, and its command-line tool is the same as the C version.
 
 ```bash
-node js/bin/damm32.js -a fdfsdfds
+npm install damm32
 ```
+
+```bash
+npx damm32 -a fdfsdfds
+```
+
+From a clone of this repository, run the tests with:
 
 ```bash
 npm test --prefix js
 ```
 
 ```js
-import { checkDigit, isValid, value, INVALID } from './damm32.js';
+import { checkDigit, isValid, value, INVALID } from 'damm32';
 
 checkDigit('fdfsdfds');  // '3', or INVALID ('-')
 isValid('fdfsdfds3');    // true
