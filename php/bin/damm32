@@ -1,0 +1,124 @@
+#!/usr/bin/env php
+<?php
+
+/*
+ Command-line interface for the base32 Damm check digit library.
+ Behaves the same as the C version.
+
+ Copyright (c) 2014, Daniel Tillett
+ SPDX-License-Identifier: BSD-2-Clause
+ */
+
+declare(strict_types=1);
+
+require_once __DIR__ . '/../src/Damm32.php';
+
+use Damm32\Damm32;
+
+const VERSION = '2.0.0';
+const EXIT_OK = 0;
+const EXIT_INVALID = 1;
+const EXIT_USAGE = 2;
+
+function usage($out): void
+{
+    fwrite($out, <<<'TXT'
+        Usage: damm32 [-a | -c] [code ...]
+
+        Calculate or verify base32 Damm check digits. With no codes,
+        whitespace-separated codes are read from standard input.
+
+          -a, --append   print each code with its check digit appended
+          -c, --check    print nothing; exit 0 only if every code is valid
+          -h, --help     show this help
+          -V, --version  show the version
+
+        Alphabet: 23456789abcdefghjkmnpqrstuvwxyz* (case-insensitive)
+        Exit status: 0 success, 1 invalid code or character, 2 usage error
+
+        TXT);
+}
+
+/* Processes one code and returns true if it passed for the selected mode. */
+function process(string $code, string $mode): bool
+{
+    $digit = Damm32::checkDigit($code);
+
+    switch ($mode) {
+        case 'append':
+            if ($digit === Damm32::INVALID) {
+                fwrite(STDERR, "damm32: invalid character in '$code'\n");
+                return false;
+            }
+            echo $code, $digit, "\n";
+            return true;
+
+        case 'check':
+            return Damm32::isValid($code);
+
+        default:
+            printf(
+                "Base32 Number: %s\nBase32 Check Digit: %s\nError Check: %d\n",
+                $code,
+                $digit,
+                Damm32::isValid($code) ? 1 : 0
+            );
+            return $digit !== Damm32::INVALID;
+    }
+}
+
+function main(array $argv): int
+{
+    $mode = 'report';
+    $args = array_slice($argv, 1);
+
+    while ($args !== [] && strlen($args[0]) > 1 && $args[0][0] === '-') {
+        $arg = array_shift($args);
+
+        switch ($arg) {
+            case '--':
+                break 2;
+            case '-a':
+            case '--append':
+                $mode = 'append';
+                break;
+            case '-c':
+            case '--check':
+                $mode = 'check';
+                break;
+            case '-h':
+            case '--help':
+                usage(STDOUT);
+                return EXIT_OK;
+            case '-V':
+            case '--version':
+                echo 'damm32 ', VERSION, "\n";
+                return EXIT_OK;
+            default:
+                fwrite(STDERR, "damm32: unknown option '$arg'\n");
+                usage(STDERR);
+                return EXIT_USAGE;
+        }
+    }
+
+    if ($args === []) {
+        if (stream_isatty(STDIN)) {
+            usage(STDERR);
+            return EXIT_USAGE;
+        }
+        $args = preg_split('/\s+/', (string) stream_get_contents(STDIN), -1, PREG_SPLIT_NO_EMPTY);
+        if ($args === []) {
+            usage(STDERR);
+            return EXIT_USAGE;
+        }
+    }
+
+    $ok = true;
+    foreach ($args as $code) {
+        $ok = process($code, $mode) && $ok;
+    }
+
+    return $ok ? EXIT_OK : EXIT_INVALID;
+}
+
+exit(main($argv));

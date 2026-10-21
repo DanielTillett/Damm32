@@ -1,0 +1,14 @@
+# Build output
+/build*/
+/damm32
+*.o
+*.dSYM/
+
+# OS files
+.DS_Store
+
+# PHP and JavaScript dependencies
+/php/vendor/
+/php/composer.lock
+/js/node_modules/
+/js/package-lock.json
