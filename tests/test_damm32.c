@@ -64,7 +64,7 @@ static void test_backward_compatible_vectors(void) {
     } vectors[] = {
         {"fdfsdfds", '3'},       {"2", '2'},    {"22222", '2'},
         {"abc", 'q'},            {"zzzz", 'c'}, {"hjkmnpqrstuvwxyz", 'j'},
-        {"racura", 'c'},         {"q", 'b'},
+        {"damm", 'j'},           {"q", 'b'},
     };
 
     for (size_t i = 0; i < sizeof vectors / sizeof vectors[0]; i++) {
@@ -95,7 +95,7 @@ static void test_case_insensitive(void) {
 }
 
 static void test_invalid_input(void) {
-    CHECK(damm32_check_digit("bisantrene") == DAMM32_INVALID);
+    CHECK(damm32_check_digit("invalid") == DAMM32_INVALID);
     CHECK(damm32_check_digit("abc0") == DAMM32_INVALID);
     CHECK(damm32_check_digit("ab c") == DAMM32_INVALID);
     CHECK(!damm32_is_valid("abc0"));

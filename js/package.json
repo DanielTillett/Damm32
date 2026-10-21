@@ -4,6 +4,15 @@
   "description": "Base32 implementation of the Damm check digit algorithm",
   "license": "BSD-2-Clause",
   "author": "Daniel Tillett",
+  "homepage": "https://github.com/DanielTillett/Damm32#javascript",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DanielTillett/Damm32.git",
+    "directory": "js"
+  },
+  "bugs": {
+    "url": "https://github.com/DanielTillett/Damm32/issues"
+  },
   "type": "module",
   "exports": {
     ".": {
