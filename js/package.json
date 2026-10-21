@@ -1,0 +1,36 @@
+{
+  "name": "damm32",
+  "version": "2.0.0",
+  "description": "Base32 implementation of the Damm check digit algorithm",
+  "license": "BSD-2-Clause",
+  "author": "Daniel Tillett",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./damm32.d.ts",
+      "default": "./damm32.js"
+    }
+  },
+  "types": "./damm32.d.ts",
+  "bin": {
+    "damm32": "bin/damm32.js"
+  },
+  "files": [
+    "damm32.js",
+    "damm32.d.ts",
+    "bin/"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "node --test"
+  },
+  "keywords": [
+    "damm",
+    "check digit",
+    "checksum",
+    "base32",
+    "error detection"
+  ]
+}
